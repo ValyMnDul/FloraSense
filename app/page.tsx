@@ -4,6 +4,7 @@ import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
 import { Activity } from 'lucide-react';
+import { format, subHours, subDays } from "date-fns";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -71,6 +72,55 @@ export default function Dashboard(){
     });
 
   },[])
+
+  const fetchData = useCallback(async () => {
+    setLoading(true);
+
+    const now = new Date;
+    let fromDate: Date;
+
+    switch (timeRange){
+      case "1h":
+        fromDate = subHours(now, 1);
+        break;
+
+      case "6h": 
+        fromDate = subHours(now, 6);
+        break;
+
+      case "24h":
+        fromDate = subHours(now, 24);
+        break;
+
+      case "7d":
+        fromDate = subDays(now, 7);
+        break;
+
+      case "30d":
+        fromDate = subDays(now,30);
+        break;
+    }
+
+    const {data: readings, error} = await supabase
+      .from("sensor_readings")
+      .select("*")
+      .gte("created_at", fromDate.toISOString())
+      .order("created_at", {ascending:true});
+
+    if(!error && readings){
+      setData(readings);
+
+      if(readings.length > 0){
+        const last = readings[readings.length - 1];
+        setLatest(last);
+        calculateStats(readings);
+      } else {
+        setLatest(null);
+      }
+    }
+
+    setLoading(false);
+  }, [timeRange, calculateStats]);
   
   if(loading){
     return (
