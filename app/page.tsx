@@ -3,6 +3,7 @@
 import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
+import { Activity } from 'lucide-react';
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -70,6 +71,17 @@ export default function Dashboard(){
     });
 
   },[])
+  
+  if(loading){
+    return (
+      <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <Activity className="w-16 h-16 text-indigo-600 animate-pulse mx-auto mb-4" ></Activity>
+          <p className="text-xl text-gray-700 font-medium">Loading FloraSense</p>
+        </div>
+      </div>
+    )
+  }
   
   return <h1>HI</h1> 
 }
