@@ -3,8 +3,9 @@
 import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
-import { Activity } from 'lucide-react';
+import { Activity, Download, Settings } from 'lucide-react';
 import { format, subHours, subDays } from "date-fns";
+import { motion } from "framer-motion";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -12,7 +13,7 @@ export default function Dashboard(){
 
   const [data, setData] = useState<SensorReading[]>([]);
   const [latest, setLatest] = useState<SensorReading | null> (null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [timeRange, setTimeRange] = useState<TimeRange>("6h");
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
@@ -132,6 +133,63 @@ export default function Dashboard(){
       </div>
     )
   }
+
+  return (
+    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100">
+      <div className="max-w-400 mx-auto p-4 sm:p-6 lg:p-8">
+        <motion.header
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mb-8"
+        >
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+            <div>
+              <h1 className="text-4xl sm:text-5xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+                🌱 FloraSense
+              </h1>
+              <p className="text-gray-600 text-lg">
+                Smart Plant Monitoring System
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {
+                (["1h", "6h", "24h", "7d", "30d"] as TimeRange[]).map((range)=>(
+                  <button
+                    key={range}
+                    //onClick={}
+                    className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                      timeRange == range 
+                        ? "bg-indigo-600 text-white shadow-lg"
+                        : "bg-white text-gray-700 hover:bg-gray-100"
+                    }`}
+                  >
+                    {range.toUpperCase()}
+                  </button>
+                ))
+              }
+
+              <button
+              //onClick={}
+              className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all flex items-center gap-2"
+              > 
+                <Download size={18}/>
+                <span className="hidden sm:inline">Export</span>
+              </button>
+
+              <button
+              className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-all flex items-center gap-2"
+              //onClick = {}
+              > 
+                <Settings size={18}/>
+                <span className="hidden sm:inline">Settings</span>
+              </button>
+            </div>
+          </div>
+        </motion.header>
+      </div>
+    </div>
+  )
   
   return <h1>HI</h1> 
 }
