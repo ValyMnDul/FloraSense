@@ -122,7 +122,23 @@ export default function Dashboard(){
 
     setLoading(false);
   }, [timeRange, calculateStats]);
-  
+
+  const exportData = useCallback(() => {
+    const csv = [
+       "Timestamp,Device ID,Moisture %,Temperature °C,Light lux",
+       ...data.map((r) => `${r.created_at},${r.device_id},${r.moisture},${r.temperature},${r.light_lux}`)
+    ].join('\n');
+
+    const blob = new Blob([csv],{type:"text/csv"});
+    const URL = globalThis.URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = URL;
+    a.download = `evasoil-export-${Date.now()}.csv`;
+    a.click();
+    globalThis.setTimeout(() => globalThis.URL.revokeObjectURL(URL), 50);
+  }, [data]);
+
   if(loading){
     return (
       <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
@@ -157,7 +173,7 @@ export default function Dashboard(){
                 (["1h", "6h", "24h", "7d", "30d"] as TimeRange[]).map((range)=>(
                   <button
                     key={range}
-                    //onClick={}
+                    onClick={() => setTimeRange(range)}
                     className={`px-4 py-2 rounded-lg font-medium transition-all ${
                       timeRange == range 
                         ? "bg-indigo-600 text-white shadow-lg"
@@ -170,7 +186,7 @@ export default function Dashboard(){
               }
 
               <button
-              //onClick={}
+              onClick={exportData}
               className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all flex items-center gap-2"
               > 
                 <Download size={18}/>
@@ -179,7 +195,7 @@ export default function Dashboard(){
 
               <button
               className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-all flex items-center gap-2"
-              //onClick = {}
+              onClick = {() => setShowSettings(true)}
               > 
                 <Settings size={18}/>
                 <span className="hidden sm:inline">Settings</span>
@@ -190,6 +206,4 @@ export default function Dashboard(){
       </div>
     </div>
   )
-  
-  return <h1>HI</h1> 
 }
