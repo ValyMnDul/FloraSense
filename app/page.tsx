@@ -3,9 +3,10 @@
 import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
-import { Activity, Download, Settings } from 'lucide-react';
+import { Activity, Download, Settings, Droplets } from 'lucide-react';
 import { format, subHours, subDays } from "date-fns";
 import { motion } from "framer-motion";
+import StartCard from "@/components/StartCard";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -203,6 +204,25 @@ export default function Dashboard(){
             </div>
           </div>
         </motion.header>
+
+        {latest &&(
+          <>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">dd
+              <StartCard
+              icon={<Droplets />}
+              title="Soil Moisture"
+              value={`${latest.moisture.toFixed(1)}%`}
+              color="blue"
+              trend={stats.moistureTrend}
+              average={stats.moistureAvg}
+              min={stats.moistureMin}
+              max={stats.moistureMax}
+              >
+
+              </StartCard>
+            </div>
+          </>
+        )}
       </div>
     </div>
   )
