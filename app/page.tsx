@@ -3,10 +3,11 @@
 import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
-import { Activity, Download, Settings, Droplets } from 'lucide-react';
+import { Download, Settings, Droplets } from 'lucide-react';
 import { format, subHours, subDays } from "date-fns";
 import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
+import Loading from "@/components/Loading";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -140,15 +141,31 @@ export default function Dashboard(){
     globalThis.setTimeout(() => globalThis.URL.revokeObjectURL(URL), 50);
   }, [data]);
 
+  const getStatusColor = useCallback((value: number, type: "moisture" | "temp" | "light") => {
+    if(type === "moisture"){
+      if(value > 60) return "text-green-500";
+      if(value > 40) return "text-blue-500";
+      if(value > 20) return "text-orange-500";
+      return "text-red-500";
+    }
+    
+    if(type === "temp"){
+      if(value > 28) return "text-red-500";
+      if(value > 22) return "text-green-500";
+      if(value > 15) return "text-blue-500";
+      return "text-cyan-500";
+    }
+
+    if(type === "light"){
+      if(value > 1000) return "text-yellow-500";
+      if(value > 500) return "text-orange-500";
+      if(value > 200) return "text-blue-500";
+      return "text-blue-500";
+    }
+  }, []);
+
   if(loading){
-    return (
-      <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <Activity className="w-16 h-16 text-indigo-600 animate-pulse mx-auto mb-4" ></Activity>
-          <p className="text-xl text-gray-700 font-medium">Loading FloraSense</p>
-        </div>
-      </div>
-    )
+    return <Loading/>
   }
 
   return (
@@ -217,7 +234,7 @@ export default function Dashboard(){
               average={stats.moistureAvg}
               min={stats.moistureMin}
               max={stats.moistureMax}
-              //status={}
+              status={getStatusColor(latest.moisture, "moisture")}
               >
 
               </StartCard>
