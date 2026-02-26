@@ -217,6 +217,7 @@ export default function Dashboard(){
               average={stats.moistureAvg}
               min={stats.moistureMin}
               max={stats.moistureMax}
+              //status={}
               >
 
               </StartCard>
