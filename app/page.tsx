@@ -3,7 +3,7 @@
 import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
-import { Download, Settings, Droplets } from 'lucide-react';
+import { Download, Settings, Droplets, Thermometer, Sun, Clock } from 'lucide-react';
 import { format, subHours, subDays } from "date-fns";
 import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
@@ -270,9 +270,40 @@ export default function Dashboard(){
               min={stats.moistureMin}
               max={stats.moistureMax}
               status={getStatusColor(latest.moisture, "moisture")}
-              >
+              />
 
-              </StartCard>
+              <StartCard
+              icon={<Thermometer/>}
+              title="Temperature"
+              value={`${latest.temperature.toFixed(1)}°C`}
+              color="red"
+              trend={stats.tempTrend}
+              average={stats.tempAvg}
+              min={stats.tempMin}
+              max={stats.tempMax}
+              status={getStatusColor(latest.temperature, "temp")}
+              />
+
+              <StartCard
+              icon={<Sun/>}
+              title="Light Level"
+              value={`${Math.round(latest.light_lux)} lx`}
+              color="yellow"
+              trend={stats.lightTrend}
+              average={stats.lightAvg}
+              min={stats.lightMin}
+              max={stats.lightMax}
+              status={getStatusColor(latest.light_lux, "light")}
+              />
+
+              <StartCard
+              icon={<Clock />}
+              title="Last Update"
+              value={format(new Date(latest.created_at), "HH:mm:ss")}
+              color="purple"
+              subtitle={`${stats.totalReadings} readings`}
+              />
+              
             </div>
           </>
         )}
