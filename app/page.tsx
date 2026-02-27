@@ -125,6 +125,28 @@ export default function Dashboard(){
     setLoading(false);
   }, [timeRange, calculateStats]);
 
+  useEffect(() => {
+    const subscription = supabase
+      .channel("sensor_readings")
+      .on("postgres_changes", { event: "INSERT", schema: "public", table: "sensor_readings" }, (payload) => {
+        const newReading = payload.new as SensorReading;
+
+        setData((prev) => {
+          const next = [...prev, newReading].slice(-1000);
+          calculateStats(next);
+          return next;
+        });
+
+        setLatest(newReading);
+      })
+      .subscribe();
+
+      return () => {
+        subscription.unsubscribe();
+      }
+      
+  }, [calculateStats]);
+
   const exportData = useCallback(() => {
     const csv = [
        "Timestamp,Device ID,Moisture %,Temperature °C,Light lux",
@@ -224,7 +246,7 @@ export default function Dashboard(){
 
         {latest &&(
           <>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">dd
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-8">
               <StartCard
               icon={<Droplets />}
               title="Soil Moisture"
