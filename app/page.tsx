@@ -48,7 +48,7 @@ export default function Dashboard(){
 
     const recentMoisture = moistureValues.slice(-10);
     const oldMoisture = moistureValues.slice(-20,-10);
-    const moistureTrend = (recentMoisture.reduce((a, b) => a + b, 0) || 0) - (oldMoisture.reduce((a, b) => a + b, 0 || 0));
+    const moistureTrend = (recentMoisture.reduce((a, b) => a + b, 0) || 0) - (oldMoisture.reduce((a, b) => a + b, 0) || 0);
 
     const recentTemp = tempValues.slice(-10);
     const oldTemp = tempValues.slice(-20, -10);
@@ -79,7 +79,7 @@ export default function Dashboard(){
   const fetchData = useCallback(async () => {
     setLoading(true);
 
-    const now = new Date;
+    const now = new Date();
     let fromDate: Date;
 
     switch (timeRange){
@@ -147,6 +147,19 @@ export default function Dashboard(){
       
   }, [calculateStats]);
 
+  useEffect(() => {
+    let isMounted = true;
+    const id = globalThis.setTimeout(() => {
+      if(isMounted) fetchData();
+    },0);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(id);
+    }
+  }, [fetchData]);
+
+
   const exportData = useCallback(() => {
     const csv = [
        "Timestamp,Device ID,Moisture %,Temperature °C,Light lux",
@@ -182,7 +195,7 @@ export default function Dashboard(){
       if(value > 1000) return "text-yellow-500";
       if(value > 500) return "text-orange-500";
       if(value > 200) return "text-blue-500";
-      return "text-blue-500";
+      return "text-gray-500";
     }
   }, []);
 
