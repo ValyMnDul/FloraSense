@@ -8,6 +8,8 @@ import { format, subHours, subDays } from "date-fns";
 import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
 import Loading from "@/components/Loading";
+import ChartCard from "@/components/ChartCard";
+import { AreaChart, ResponsiveContainer } from "recharts";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -303,7 +305,22 @@ export default function Dashboard(){
               color="purple"
               subtitle={`${stats.totalReadings} readings`}
               />
-              
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-8">
+              <ChartCard
+              title="Soil Moisture"
+              icon={<Droplets />}
+              >
+                <ResponsiveContainer
+                width="100%"
+                height={300}
+                >
+                  <AreaChart>
+
+                  </AreaChart>
+                </ResponsiveContainer>
+              </ChartCard>
             </div>
           </>
         )}
