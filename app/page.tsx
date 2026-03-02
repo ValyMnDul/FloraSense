@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
 import Loading from "@/components/Loading";
 import ChartCard from "@/components/ChartCard";
-import { AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -216,6 +216,9 @@ export default function Dashboard(){
     }));
   }, [data, timeLabelFormat]);
 
+  const xAxisAngle = timeRange === "30d" ? 0 : -45;
+  const xAxisHeight = timeRange === "30d" ? 40 : 70;
+ 
   if(loading){
     return <Loading/>
   }
@@ -332,6 +335,7 @@ export default function Dashboard(){
                 height={300}
                 >
                   <AreaChart data={chartData}>
+
                     <defs>
                       <linearGradient
                       id="colorMoisture"
@@ -344,16 +348,42 @@ export default function Dashboard(){
                         <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
                       </linearGradient>
                     </defs>
+
                     <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
+
                     <XAxis
                       dataKey="time"
                       stroke="#64748b"
-                      //angle={}
-                      //textAnchor={}
-                      //height={}
+                      angle={xAxisAngle}
+                      textAnchor={xAxisAngle === 0 ? "middle" : "end"}
+                      height={xAxisHeight}
                       interval="preserveStartEnd"
                       style={{ fontSize: "12px" }}
                     />
+
+                    <YAxis 
+                      domain={[0, 100]} 
+                      stroke="#64748b"
+                      style={{ fontSize: "12px" }}
+                    />
+
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "none",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
+                      }}
+                    />
+
+                    <Area
+                      type="monotone"
+                      dataKey="moisture"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      fill="url(#colorMoisture)"
+                    />
+
                   </AreaChart>
                 </ResponsiveContainer>
               </ChartCard>
