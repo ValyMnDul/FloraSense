@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
 import Loading from "@/components/Loading";
 import ChartCard from "@/components/ChartCard";
-import { AreaChart, ResponsiveContainer } from "recharts";
+import { AreaChart, CartesianGrid, ResponsiveContainer, XAxis } from "recharts";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -201,6 +201,21 @@ export default function Dashboard(){
     }
   }, []);
 
+  const timeLabelFormat = useMemo(() => {
+    if(timeRange === "7d") return "EEE HH:mm";
+    if(timeRange === "30d") return "MMM d";
+    return "HH:mm";
+  }, [timeRange]);
+
+  const chartData = useMemo(() => {
+    return data.map((r) => ({
+      time: format(new Date(r.created_at), timeLabelFormat),
+      moisture: r.moisture,
+      temp: r.temperature,
+      light: r.light_lux
+    }));
+  }, [data, timeLabelFormat]);
+
   if(loading){
     return <Loading/>
   }
@@ -316,8 +331,29 @@ export default function Dashboard(){
                 width="100%"
                 height={300}
                 >
-                  <AreaChart>
-
+                  <AreaChart data={chartData}>
+                    <defs>
+                      <linearGradient
+                      id="colorMoisture"
+                      x1="0"
+                      y1="0"
+                      x2="0"
+                      y2="1"
+                      >
+                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
+                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
+                    <XAxis
+                      dataKey="time"
+                      stroke="#64748b"
+                      //angle={}
+                      //textAnchor={}
+                      //height={}
+                      interval="preserveStartEnd"
+                      style={{ fontSize: "12px" }}
+                    />
                   </AreaChart>
                 </ResponsiveContainer>
               </ChartCard>
