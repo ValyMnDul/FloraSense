@@ -1,15 +1,14 @@
 "use client"
 
-import React from "react";
 import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
-import { Download, Settings, Droplets, Thermometer, Sun, Clock } from 'lucide-react';
+import { Download, Settings, Droplets, Thermometer, Sun, Clock, Activity } from 'lucide-react';
 import { format, subHours, subDays } from "date-fns";
 import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
 import Loading from "@/components/Loading";
 import ChartCard from "@/components/ChartCard";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line, Legend } from "recharts";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
@@ -450,12 +449,120 @@ export default function Dashboard(){
                 <ResponsiveContainer width="100%" height={300}>
                   <AreaChart data={chartData}>
                       <defs>
-                        
+                        <linearGradient id="colorLight" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.1}/>
+                        </linearGradient>
                       </defs>
+
+                      <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
+
+                      <XAxis
+                      dataKey="time"
+                      stroke="#64748b"
+                      angle={xAxisAngle}
+                      textAnchor={xAxisAngle === 0 ? "middle" : "end"}
+                      height={xAxisHeight}
+                      interval="preserveStartEnd"
+                      style={{ fontSize: "12px"}}
+                      />
+
+                      <YAxis
+                      stroke="#64748b"
+                      style={{ fontSize: "12px"}}
+                      />
+
+                      <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "none",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                      }}
+                      />
+
+                      <Area
+                      type="monotone"
+                      dataKey="light"
+                      stroke="#f59e0b"
+                      strokeWidth={2}
+                      fill="url(#colorLight)"
+                      />
                   </AreaChart>
                 </ResponsiveContainer>
               </ChartCard>
 
+              <ChartCard title="Combined Analytics Dashboard" icon={<Activity/>}>
+                <ResponsiveContainer width="100%" height={450}>
+                  <LineChart data={chartData}>
+                    <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
+
+                    <XAxis
+                    dataKey="time"
+                    stroke="#64748b"
+                    angle={xAxisAngle}
+                    textAnchor={xAxisAngle === 0 ? "middle" : "end"}
+                    height={xAxisHeight}
+                    interval="preserveStartEnd"
+                    style={{ fontSize: "12px" }}
+                    />
+
+                    <YAxis 
+                    yAxisId="left" 
+                    stroke="#64748b"
+                    style={{ fontSize: "12px" }}
+                    />
+
+                    <YAxis
+                    yAxisId="right"
+                    orientation="right"
+                    stroke="#64748b"
+                    style={{ fontSize: "12px" }}
+                    />
+                    
+                    <Tooltip
+                    contentStyle={{
+                      backgroundColor: "#fff",
+                      border: "none",
+                      borderRadius: "8px",
+                      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                    }}
+                    />
+
+                    <Legend />
+
+                    <Line
+                    yAxisId="left"
+                    type="monotone"
+                    dataKey="moisture"
+                    stroke="#3b82f6"
+                    strokeWidth={2}
+                    name="Moisture %"
+                    dot={false}
+                    />
+
+                    <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="temp"
+                    stroke="#ef4444"
+                    strokeWidth={2}
+                    name="Temperature °C"
+                    dot={false}
+                    />
+
+                    <Line
+                    yAxisId="right"
+                    type="monotone"
+                    dataKey="light"
+                    stroke="#f59e0b"
+                    strokeWidth={2}
+                    name="Light lx"
+                    dot={false}
+                  />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartCard>
             </div>
           </>
         )}
