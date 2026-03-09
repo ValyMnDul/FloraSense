@@ -387,6 +387,75 @@ export default function Dashboard(){
                   </AreaChart>
                 </ResponsiveContainer>
               </ChartCard>
+
+              <ChartCard 
+              title="Temperature"
+              icon={<Thermometer />}
+              >
+                <ResponsiveContainer
+                width="100%"
+                height={300}
+                >
+                  <AreaChart data={chartData}>
+                      <defs>
+                        <linearGradient
+                        id="colorTemp"
+                        x1="0"
+                        y1="0"
+                        x2="0"
+                        y2="1"
+                        >
+                          <stop offset="5%" stopColor="#ef4444" stopOpacity={0.8}/>
+                          <stop offset="95%" stopColor="#ef4444" stopOpacity={0.1}/>
+                        </linearGradient>
+                      </defs>
+                      
+                      <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
+                      <XAxis
+                      dataKey="time"
+                      stroke="#64748b"
+                      angle={xAxisAngle}
+                      textAnchor={xAxisAngle === 0 ? "middle" : "end"}
+                      height={xAxisHeight}
+                      interval="preserveStartEnd"
+                      style={{ fontSize: "12px" }}
+                      />
+
+                      <YAxis 
+                      stroke="#64748b"
+                      style={{ fontSize: "12px" }}
+                      />
+
+                      <Tooltip
+                      contentStyle={{
+                        backgroundColor: "#fff",
+                        border: "none",
+                        borderRadius: "8px",
+                        boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)"
+                      }}
+                      />
+
+                      <Area
+                      type="monotone"
+                      dataKey="temp"
+                      stroke="#ef4444"
+                      strokeWidth={2}
+                      fill="url(#colorTemp)"
+                      />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </ChartCard>
+
+              <ChartCard title="Light Level" icon={<Sun/>}>
+                <ResponsiveContainer width="100%" height={300}>
+                  <AreaChart data={chartData}>
+                      <defs>
+                        
+                      </defs>
+                  </AreaChart>
+                </ResponsiveContainer>
+              </ChartCard>
+
             </div>
           </>
         )}
