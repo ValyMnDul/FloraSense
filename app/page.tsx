@@ -589,14 +589,41 @@ export default function Dashboard(){
               )}
 
               {latest.light_lux < 100 && (
-                <motion.div>
-                  
+                <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mt-4 bg-linear-to-r from-gray-50 to-slate-50 border-l-4 border-gray-500 p-6 rounded-r-xl shadow-lg"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-gray-100 rounded-full">
+                      <Sun className="text-gray-600" size={24} />
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-gray-900 text-lg mb-1">🌙 Low Light Alert</h3>
+                      <p className="text-gray-800">
+                        Light level is low: <strong>{Math.round(latest.light_lux)} lx</strong>
+                      </p>
+                      <p className="text-sm text-gray-700 mt-2">
+                        Consider moving your plant to a brighter location
+                      </p>
+                    </div>
+                  </div>
                 </motion.div>
+              )}
+
+              {!latest && !loading && (
+                <div className="text-center py-20">
+                  <Activity className="w-20 h-20 text-gray-400 mx-auto mb-4"/> 
+                  <p className="text-xl text-gray-500">Waiting for sensor data...</p>
+                  <p className="text-sm text-gray-400 mt-2">Make sure your ESP32 is connected</p>
+                </div>
               )}
             </div>
           </>
         )}
       </div>
+
+      <SettingsModal/>
     </div>
-  )
+  );
 }
