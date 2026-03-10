@@ -9,6 +9,7 @@ import StartCard from "@/components/StartCard";
 import Loading from "@/components/Loading";
 import ChartCard from "@/components/ChartCard";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, LineChart, Line, Legend } from "recharts";
+import SettingsModal from "@/components/SettingsModal";
 
 type TimeRange = "1h" | "6h" | "24h" | "7d" | "30d";
 
