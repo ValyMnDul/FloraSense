@@ -563,6 +563,36 @@ export default function Dashboard(){
                   </LineChart>
                 </ResponsiveContainer>
               </ChartCard>
+
+              {latest.moisture < 30 && (
+                <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="mt-8 bg-linear-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-6 rounded-r-xl shadow-lg"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 bg-orange-100 rounded-full">
+                      <Droplets className="text-orange-600" size={24}/>
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-orange-900 text-lg mb-1">⚠️ Low Moisture Alert </h3>
+                      <p className="text-orange-800">
+                        Your plant needs water! Current level:{" "}
+                        <strong>{latest.moisture.toFixed(1)}%</strong>
+                      </p>
+                      <p className="text-sm text-orange-700 mt-2">
+                        Recommended action: Water your plant within the next hour
+                      </p>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {latest.light_lux < 100 && (
+                <motion.div>
+                  
+                </motion.div>
+              )}
             </div>
           </>
         )}
