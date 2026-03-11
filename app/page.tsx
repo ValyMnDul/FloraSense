@@ -127,19 +127,35 @@ export default function Dashboard(){
     setLoading(false);
   }, [timeRange, calculateStats]);
 
+  const isInRange = useCallback((createdAt: string) => {
+    const t = new Date(createdAt).getTime();
+    const now = Date.now();
+
+    let from = now;
+
+    if (timeRange === "1h") from -= 1 * 60 * 60 * 1000;
+    if (timeRange === "6h") from -= 6 * 60 * 60 * 1000;
+    if (timeRange === "24h") from -= 24 * 60 * 60 * 1000;
+    if (timeRange === "7d") from -= 7 * 24 * 60 * 60 * 1000;
+    if (timeRange === "30d") from -= 30 * 24 * 60 * 60 * 1000;
+
+    return t >= from;
+  }, [timeRange]);
+
   useEffect(() => {
     const subscription = supabase
       .channel("sensor_readings")
       .on("postgres_changes", { event: "INSERT", schema: "public", table: "sensor_readings" }, (payload) => {
         const newReading = payload.new as SensorReading;
+        setLatest(newReading);
+
+        if (!isInRange(newReading.created_at)) return;
 
         setData((prev) => {
           const next = [...prev, newReading].slice(-1000);
           calculateStats(next);
           return next;
         });
-
-        setLatest(newReading);
       })
       .subscribe();
 
@@ -147,7 +163,7 @@ export default function Dashboard(){
         subscription.unsubscribe();
       }
       
-  }, [calculateStats]);
+  }, [calculateStats, isInRange]);
 
   useEffect(() => {
     let isMounted = true;
@@ -511,79 +527,81 @@ export default function Dashboard(){
                   </AreaChart>
                 </ResponsiveContainer>
               </ChartCard>
+            </div>
 
-              <ChartCard title="Combined Analytics Dashboard" icon={<Activity/>}>
-                <ResponsiveContainer width="100%" height={450}>
-                  <LineChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
+            <ChartCard title="Combined Analytics Dashboard" icon={<Activity/>}>
+              <ResponsiveContainer width="100%" height={450}>
+                <LineChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" opacity={0.2}/>
 
-                    <XAxis
-                    dataKey="time"
-                    stroke="#64748b"
-                    angle={xAxisAngle}
-                    textAnchor={xAxisAngle === 0 ? "middle" : "end"}
-                    height={xAxisHeight}
-                    interval="preserveStartEnd"
-                    style={{ fontSize: "12px" }}
-                    />
-
-                    <YAxis 
-                    yAxisId="left" 
-                    stroke="#64748b"
-                    style={{ fontSize: "12px" }}
-                    />
-
-                    <YAxis
-                    yAxisId="right"
-                    orientation="right"
-                    stroke="#64748b"
-                    style={{ fontSize: "12px" }}
-                    />
-                    
-                    <Tooltip
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      border: "none",
-                      borderRadius: "8px",
-                      boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
-                    }}
-                    />
-
-                    <Legend />
-
-                    <Line
-                    yAxisId="left"
-                    type="monotone"
-                    dataKey="moisture"
-                    stroke="#3b82f6"
-                    strokeWidth={2}
-                    name="Moisture %"
-                    dot={false}
-                    />
-
-                    <Line
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="temp"
-                    stroke="#ef4444"
-                    strokeWidth={2}
-                    name="Temperature °C"
-                    dot={false}
-                    />
-
-                    <Line
-                    yAxisId="right"
-                    type="monotone"
-                    dataKey="light"
-                    stroke="#f59e0b"
-                    strokeWidth={2}
-                    name="Light lx"
-                    dot={false}
+                  <XAxis
+                  dataKey="time"
+                  stroke="#64748b"
+                  angle={xAxisAngle}
+                  textAnchor={xAxisAngle === 0 ? "middle" : "end"}
+                  height={xAxisHeight}
+                  interval="preserveStartEnd"
+                  style={{ fontSize: "12px" }}
                   />
-                  </LineChart>
-                </ResponsiveContainer>
-              </ChartCard>
 
+                  <YAxis 
+                  yAxisId="left" 
+                  stroke="#64748b"
+                  style={{ fontSize: "12px" }}
+                  />
+
+                  <YAxis
+                  yAxisId="right"
+                  orientation="right"
+                  stroke="#64748b"
+                  style={{ fontSize: "12px" }}
+                  />
+                  
+                  <Tooltip
+                  contentStyle={{
+                    backgroundColor: "#fff",
+                    border: "none",
+                    borderRadius: "8px",
+                    boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+                  }}
+                  />
+
+                  <Legend />
+
+                  <Line
+                  yAxisId="left"
+                  type="monotone"
+                  dataKey="moisture"
+                  stroke="#3b82f6"
+                  strokeWidth={2}
+                  name="Moisture %"
+                  dot={false}
+                  />
+
+                  <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="temp"
+                  stroke="#ef4444"
+                  strokeWidth={2}
+                  name="Temperature °C"
+                  dot={false}
+                  />
+
+                  <Line
+                  yAxisId="right"
+                  type="monotone"
+                  dataKey="light"
+                  stroke="#f59e0b"
+                  strokeWidth={2}
+                  name="Light lx"
+                  dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartCard>
+
+            <div className="space-y-4">
               {latest.moisture < 30 && (
                 <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
@@ -612,7 +630,7 @@ export default function Dashboard(){
                 <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mt-4 bg-linear-to-r from-gray-50 to-slate-50 border-l-4 border-gray-500 p-6 rounded-r-xl shadow-lg"
+                className="bg-linear-to-r from-gray-50 to-slate-50 border-l-4 border-gray-500 p-6 rounded-r-xl shadow-lg"
                 >
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-gray-100 rounded-full">
