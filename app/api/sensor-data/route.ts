@@ -9,7 +9,7 @@ export async function POST(request:Request) {
             device_id: body.device_id || "ESP32_PlantGuard_01",
             moisture: Number(body.soil) || 0,
             temperature: Number(body.temperature) || 0,
-            light_lux: Number(body.light_lux) || 0,
+            light_lux: Number(body.light_lux ?? body.lux) || 0,
         };
 
         const { data, error } = await supabase
@@ -51,3 +51,57 @@ export async function GET(){
     }
 }
 
+export async function DELETE(request:Request) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const action = searchParams.get("action");
+
+        if(action === "clear_all") {
+            const { error } = await supabase
+                .from("sensor_readings")
+                .delete()
+                .neq("id", 0);
+
+            if(error) throw error;
+
+            return NextResponse.json({
+                success: true,
+                message: "All history cleared",
+            });
+        }
+
+        if(action === "clear_device"){
+            const deviceId = searchParams.get("device_id");
+
+            if(!deviceId){
+                return NextResponse.json(
+                    { success: false, error: "Device ID required" },
+                    { status: 400 }
+                );
+            }
+
+            const { error } = await supabase
+                .from("sensor_readings")
+                .delete()
+                .eq("device_id", deviceId);
+
+            if (error) throw error;
+
+            return NextResponse.json({
+                success: true,
+                message: `History cleared for ${deviceId}`,
+            });
+        }
+
+        return NextResponse.json(
+            { success: false, error: "Invalid action" },
+            { status: 400 }
+        );
+
+    } catch(error){
+        return NextResponse.json(
+            { success: false, error: String(error) },
+            { status: 500 }
+        );
+    }
+}
