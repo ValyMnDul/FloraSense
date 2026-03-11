@@ -218,6 +218,25 @@ export default function Dashboard(){
 
   const xAxisAngle = timeRange === "30d" ? 0 : -45;
   const xAxisHeight = timeRange === "30d" ? 40 : 70;
+
+  const clearHistory = useCallback(async () => {
+    try {
+      const response = await fetch("/api/sensor-data?action=clear_all",{
+        method:"DELETE",
+      });
+      const result = await response.json();
+
+      if (result.success) {
+        setData([]);
+        setLatest(null);
+        alert("History cleared successfully!");
+      }
+      
+    } catch(error){
+      alert("Error clearing history");
+      console.error(error);
+    }
+  }, []);
  
   if(loading){
     return <Loading/>
@@ -624,7 +643,13 @@ export default function Dashboard(){
         )}
       </div>
 
-      <SettingsModal/>
+      <SettingsModal 
+      isOpen={showSettings}
+      onClose={() => setShowSettings(false)}
+      onClearHistory={clearHistory}
+      onExportData={exportData}
+      deviceId={latest?.device_id || "Unknown"}
+      />
     </div>
   );
 }
