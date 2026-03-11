@@ -34,3 +34,20 @@ export async function POST(request:Request) {
         );
     }
 }
+
+export async function GET(){
+    try{
+        const { data, error } = await supabase
+            .from("sensor_readings")
+            .select("*")
+            .order("created_at", { ascending: false })
+            .limit(100);
+
+        if(error) throw error;
+
+        return NextResponse.json({success:true, data});
+    } catch(error){
+        return NextResponse.json({success:false, error:`Failed to fetch data:${error}`}, { status: 500 });
+    }
+}
+
