@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, X, Bell } from "lucide-react";
+import { Settings, X, Bell, Palette } from "lucide-react";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -172,13 +172,26 @@ export default function SettingsModal({
                                 </div>
                             </section>
 
-                            <div>
-
+                            <div className="border-t border-gray-200 pt-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <Palette size={20} className="text-indigo-600" />
+                                    Device Info
+                                </h3>
+                                
+                                <div className="bg-gray-50/80 rounded-lg p-4 space-y-2">
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-gray-600">Device ID:</span>
+                                        <span className="text-sm font-medium text-gray-900">{deviceId}</span>
+                                    </div>
+                                    <div className="flex justify-between">
+                                        <span className="text-sm text-gray-600">Status:</span>
+                                        <span className="text-sm font-medium text-green-600">● Online</span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
                 </motion.div>
             )}
         </AnimatePresence>
-    )
-}
+    )}
