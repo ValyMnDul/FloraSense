@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, X } from "lucide-react";
+import { Settings, X, Bell } from "lucide-react";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -68,6 +68,36 @@ export default function SettingsModal({
                             >
                                 <X size={24} />
                             </button>
+                        </div>
+
+                        <div className="p-6 space-y-6">
+                            <section>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <Bell size={20} className="text-indigo-600" />
+                                    Alert Thresholds
+                                </h3>
+
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Low Moisture Alert: {moistureThreshold}%
+                                        </label>
+                                        
+                                        <input
+                                        type="range"
+                                        min="10"
+                                        max="50"
+                                        value={moistureThreshold}
+                                        onChange={(e) => setMoistureThreshold(Number(e.target.value))}
+                                        className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer"
+                                        />
+
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            Alert when moisture drops below this level
+                                        </p>
+                                    </div>
+                                </div>
+                            </section>
                         </div>
                     </motion.div>
                 </motion.div>
