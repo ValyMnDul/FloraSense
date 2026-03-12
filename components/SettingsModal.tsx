@@ -25,6 +25,19 @@ export default function SettingsModal({
     const [tempThresholdHigh, setTempThresholdHigh] = useState(28);
     const [lightThreshold, setLightThreshold] = useState(100);
 
+    const saveSettings = () => {
+        localStorage.setItem(
+            "evasoil_settings",
+            JSON.stringify({
+                moistureThreshold,
+                tempThresholdLow,
+                tempThresholdHigh,
+                lightThreshold
+            })
+        );
+        alert("✅ Settings saved!");
+    }
+
 
     return (
         <AnimatePresence>
@@ -150,8 +163,18 @@ export default function SettingsModal({
                                         </p>
                                     </div>
 
+                                    <button
+                                    onClick={saveSettings}
+                                    className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 transition-colors"
+                                    >
+                                        Save Alert Settings
+                                    </button>
                                 </div>
                             </section>
+
+                            <div>
+
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>
