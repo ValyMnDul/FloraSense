@@ -96,6 +96,60 @@ export default function SettingsModal({
                                             Alert when moisture drops below this level
                                         </p>
                                     </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Temperature Range: {tempThresholdLow}°C - {tempThresholdHigh}°C
+                                        </label>
+                                        <div className="flex gap-4">
+                                            <div className="flex-1">
+                                                <input
+                                                type="range"
+                                                min="10"
+                                                max="25"
+                                                value={tempThresholdLow}
+                                                onChange={(e) => setTempThresholdLow(Number(e.target.value))}
+                                                className="w-full h-2 bg-red-200 rounded-lg appearance-none cursor-pointer"
+                                                />
+
+                                                <p className="text-xs text-gray-500 mt-1">Min</p>
+                                            </div>
+
+                                            <div className="flex-1">
+                                                <input
+                                                type="range"
+                                                min="25"
+                                                max="35"
+                                                value={tempThresholdHigh}
+                                                onChange={(e) => setTempThresholdHigh(Number(e.target.value))}
+                                                className="w-full h-2 bg-red-200 rounded-lg appearance-none cursor-pointer"
+                                                />
+
+                                                <p className="text-xs text-gray-500 mt-1">Max</p> 
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                                            Low Light Alert: {lightThreshold} lx
+                                        </label>
+
+                                        <input
+                                        type="range"
+                                        min="50"
+                                        max="500"
+                                        step="50"
+                                        value={lightThreshold}
+                                        onChange={(e) => setLightThreshold(Number(e.target.value))}
+                                        className="w-full h-2 bg-yellow-200 rounded-lg appearance-none cursor-pointer" 
+                                        />
+
+                                        <p className="text-xs text-gray-500 mt-1">
+                                            Alert when light drops below this level
+                                        </p>
+                                    </div>
+
                                 </div>
                             </section>
                         </div>
