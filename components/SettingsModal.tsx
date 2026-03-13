@@ -189,6 +189,10 @@ export default function SettingsModal({
                                     </div>
                                 </div>
                             </div>
+
+                            <div className="border-t border-gray-200 pt-6">
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2"></h3>
+                            </div>
                         </div>
                     </motion.div>
                 </motion.div>
