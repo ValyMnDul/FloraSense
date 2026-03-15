@@ -207,7 +207,26 @@ export default function SettingsModal({
 
                                     <button
                                     onClick={() => {
-                                        
+                                        const json = JSON.stringify(
+                                            {
+                                            deviceId,
+                                            settings: {
+                                                moistureThreshold,
+                                                tempThresholdLow,
+                                                tempThresholdHigh,
+                                                lightThreshold,
+                                            },
+                                            },
+                                            null,
+                                            2
+                                        );
+
+                                        const blob = new Blob([json], { type: "application/json" });
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement("a");
+                                        a.href = url;
+                                        a.download = `evasoil-backup-${Date.now()}.json`;
+                                        a.click();
                                     }}
                                     className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                                     >
