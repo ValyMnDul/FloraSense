@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, X, Bell, Palette } from "lucide-react";
+import { Settings, X, Bell, Palette, Download, RefreshCw } from "lucide-react";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -191,7 +191,30 @@ export default function SettingsModal({
                             </div>
 
                             <div className="border-t border-gray-200 pt-6">
-                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2"></h3>
+                                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                                    <Download size={20} className="text-green-600" /> 
+                                    Data Management 
+                                </h3>
+
+                                <div className="space-y-3">
+                                    <button
+                                    onClick={onExportData}
+                                    className="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <Download size={18} />
+                                        Export All Data (CSV)
+                                    </button>
+
+                                    <button
+                                    onClick={() => {
+                                        
+                                    }}
+                                    className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <RefreshCw size={18} />
+                                        Backup Settings
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
