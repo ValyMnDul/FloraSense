@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, X, Bell, Palette, Download, RefreshCw } from "lucide-react";
+import { Settings, X, Bell, Palette, Download, RefreshCw, AlertTriangle, Trash2 } from "lucide-react";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -234,6 +234,26 @@ export default function SettingsModal({
                                         Backup Settings
                                     </button>
                                 </div>
+                            </div>
+
+                            <div className="border-t border-gray-200 pt-6">
+                                <h3 className="text-lg font-semibold text-red-900 mb-4 flex items-center gap-2">
+                                    <AlertTriangle size={20} className="text-red-600" />
+                                    Danger Zone
+                                </h3>
+                                {showConfirm ? (
+                                    <button
+                                        onClick={() => setShowConfirm(true)}
+                                        className="w-full px-4 py-3 bg-red-50 text-red-700 border-2 border-red-200 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
+                                    >
+                                        <Trash2 size={18} />  
+                                        Clear All History
+                                    </button>
+                                ): (
+                                    <div className="space-y-3">
+                                        
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </motion.div>
