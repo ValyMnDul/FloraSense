@@ -25,6 +25,17 @@ export default function SettingsModal({
     const [tempThresholdHigh, setTempThresholdHigh] = useState(28);
     const [lightThreshold, setLightThreshold] = useState(100);
 
+    useEffect(() => {
+        if(isOpen){
+            const prev = document.body.style.overflow;
+            document.body.style.overflow = 'hidden';
+            return () => {
+                document.body.style.overflow = prev;
+                setShowConfirm(false);
+            } 
+        }
+    }, [isOpen]);
+
     const saveSettings = () => {
         localStorage.setItem(
             "evasoil_settings",
@@ -246,7 +257,7 @@ export default function SettingsModal({
                                     <AlertTriangle size={20} className="text-red-600" />
                                     Danger Zone
                                 </h3>
-                                {showConfirm ? (
+                                {!showConfirm ? (
                                     <button
                                         onClick={() => setShowConfirm(true)}
                                         className="w-full px-4 py-3 bg-red-50 text-red-700 border-2 border-red-200 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
