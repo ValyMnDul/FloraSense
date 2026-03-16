@@ -251,7 +251,27 @@ export default function SettingsModal({
                                     </button>
                                 ): (
                                     <div className="space-y-3">
-                                        
+                                        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                                            <p className="text-sm text-red-800 font-medium mb-2">⚠️ Are you sure?</p>
+                                            <p className="text-xs text-red-700">
+                                                This will permanently delete all sensor readings. This action cannot be undone!
+                                            </p> 
+                                        </div>
+
+                                        <div className="flex gap-3">
+                                            <button
+                                            onClick={() => setShowConfirm(false)}
+                                            className="flex-1 px-4 py-2 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300 transition-colors"
+                                            >
+                                                Cancel
+                                            </button>
+                                            <button
+                                            onClick={handleClearHistory}
+                                            className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+                                            >
+                                                Yes, Delete All
+                                            </button>
+                                        </div>
                                     </div>
                                 )}
                             </div>
