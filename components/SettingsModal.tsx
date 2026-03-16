@@ -35,9 +35,14 @@ export default function SettingsModal({
                 lightThreshold
             })
         );
-        alert("✅ Settings saved!");
+        alert("Settings saved!");
     }
 
+    const handleClearHistory = async () => {
+        onClearHistory();
+        setShowConfirm(false);
+        onClose();
+    } 
 
     return (
         <AnimatePresence>
@@ -274,6 +279,10 @@ export default function SettingsModal({
                                         </div>
                                     </div>
                                 )}
+
+                                <p className="text-xs text-gray-500 mt-3 text-center">
+                                    Tip: Export your data before clearing history
+                                </p>
                             </div>
                         </div>
                     </motion.div>
