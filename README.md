@@ -16,9 +16,9 @@ Maintaining plants requires consistent monitoring of variables that are often in
 
 FloraSense solves these problems by providing a high-precision digital interface that alerts the user when parameters cross **safe thresholds**.
 
-> ### Early Prototype
+> ### Early Prototype (Inside a box literally)
 
-<IMG_EARLY_PROTOTYPE>
+![early prototype](./assets/prototype.jpeg)
 
 ## Hardware Components
 
@@ -61,7 +61,7 @@ The dashboard connects via Supabase Realtime to provide live updates without ref
 
 The enclosure and layout were planned using **Tinkercad** to ensure a compact form factor that protects the electronics from soil humidity.
 
-<IMG_TINKERCAD_DESIGN>
+![tinkercad](./assets/tinkercad.png)
 <IMG_INSIDE>
 
 ## Software Stack
