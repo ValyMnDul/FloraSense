@@ -290,18 +290,18 @@ export default function Dashboard(){
 
               <button
               onClick={exportData}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-all flex items-center gap-2"
+              className="px-4 py-2 bg-white text-stone-700 border border-stone-300 rounded-md font-medium hover:bg-stone-100 transition-colors flex items-center gap-2"
               > 
                 <Download size={18}/>
-                <span className="hidden sm:inline">Export</span>
+                <span>Export</span>
               </button>
 
               <button
-              className="px-4 py-2 bg-purple-600 text-white rounded-lg font-medium hover:bg-purple-700 transition-all flex items-center gap-2"
+              className="px-4 py-2 bg-white text-stone-700 border border-stone-300 rounded-md font-medium hover:bg-stone-100 transition-colors flex items-center gap-2"
               onClick = {() => setShowSettings(true)}
               > 
                 <Settings size={18}/>
-                <span className="hidden sm:inline">Settings</span>
+                <span>Settings</span>
               </button>
             </div>
           </div>
