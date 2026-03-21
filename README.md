@@ -33,29 +33,12 @@ The system utilizes the following hardware for data acquisition and local visual
 | "0.96"" OLED Display (I2C)"       | Local real-time visualization of sensor readings.                        |
 | 18650 Power Bank Kit              | Portable power management for the sensor node.                           |
 
-## Features
 
-**Real-Time Monitoring**:
+## Design and Assembly
 
-The dashboard connects via Supabase Realtime to provide live updates without refreshing the page. As soon as the ESP32 pushes data, the charts update **instantly**.
+The enclosure and layout were planned using **Tinkercad** to ensure a compact form factor that protects the electronics from soil humidity.
 
-**Historical Data Analytics**:
-
-- **Time Range Selection**: View data from the last hour up to 30 days.
-- **Trend Analysis**: Calculated averages and trends (up/down) for moisture, temperature, and light.
-- **Export Functionality**: Users can download the entire history in CSV format for external analysis.
-
-**Smart Alerts**:
-
-- **Custom Thresholds**: Users can set personalized thresholds for each parameter.
-- Dynamic alert cards appear when the system detects:
-  - Soil moisture below the set threshold.
-  - Temperature outside the optimal range.
-  - Insufficient light levels.
-
-**Data Maintenance**:
-
- Options to backup settings or clear sensor history.
+![tinkercad](./assets/tinkercad.png)
 
 ## Project Circuit
 
@@ -77,13 +60,6 @@ Below is the complete wiring diagram for connecting the components to the ESP32 
 | | GND | GND |
 | | SDA | GPIO 21 |
 | | SCL | GPIO 22 |
-
-## Design and Assembly
-
-The enclosure and layout were planned using **Tinkercad** to ensure a compact form factor that protects the electronics from soil humidity.
-
-![tinkercad](./assets/tinkercad.png)
-<IMG_INSIDE>
 
 ## Software Stack
 
@@ -107,3 +83,5 @@ Contributions are welcome! If you have ideas for new features, improvements, or 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](./LICENSE.md) file for details.
+
+### Project made for HackClub The Game event
