@@ -57,6 +57,27 @@ The dashboard connects via Supabase Realtime to provide live updates without ref
 
  Options to backup settings or clear sensor history.
 
+## Project Circuit
+
+Below is the complete wiring diagram for connecting the components to the ESP32 board.
+
+| Component | Module Pin | ESP32 Pin |
+| :--- | :--- | :--- |
+| **Soil Moisture Sensor** | VCC | 3.3V |
+| | GND | GND |
+| | AOUT | GPIO 34 |
+| **DS18B20 Temp Sensor** | VCC | 3.3V |
+| | GND | GND |
+| | DATA | GPIO 4 |
+| **BH1750 Light Sensor** | VCC | 3.3V |
+| | GND | GND |
+| | SDA | GPIO 21 |
+| | SCL | GPIO 22 |
+| **OLED Display** | VCC | 3.3V |
+| | GND | GND |
+| | SDA | GPIO 21 |
+| | SCL | GPIO 22 |
+
 ## Design and Assembly
 
 The enclosure and layout were planned using **Tinkercad** to ensure a compact form factor that protects the electronics from soil humidity.
@@ -71,7 +92,6 @@ The enclosure and layout were planned using **Tinkercad** to ensure a compact fo
 - **Framework**: Next.js 15
 - **Design**: Tailwind CSS
 - **Charts**: Recharts (Area and Line charts)
--**Animations**: Framer Motion
 -**Icons**: Lucide React
 
 ### Backend/Database

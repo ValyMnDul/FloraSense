@@ -1,11 +1,9 @@
-import { motion } from "framer-motion"
 import { TrendingUp, TrendingDown } from "lucide-react"
 
 export default function StartCard({
     icon,
     title,
     value,
-    color,
     trend,
     average,
     min, 
@@ -24,22 +22,12 @@ export default function StartCard({
     status?: string,
     subtitle?: string 
 }) {
-    const colorClasses = {
-        blue: "from-blue-500 to-cyan-500",
-        red: "from-red-500 to-orange-500",
-        purple: "from-purple-500 to-pink-500",
-        green: "from-green-500 to-emerald-500",
-        yellow: "from-yellow-500 to-orange-500"
-    }
-
     return(
-        <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 card-hover"
+        <div
+        className="bg-white rounded-none border-2 border-stone-200 p-5"
         >
             <div className="flex item-center justify-between mb-4">
-                <div className={`p-3 rounded-xl bg-linear-to-br ${colorClasses[color]} text-white`}>
+                <div className={`p-3 rounded-xl bg-linear-to-br bg-blue-100 text-blue-800`}>
                     {icon}
                 </div>
 
@@ -77,6 +65,6 @@ export default function StartCard({
             )}
 
             {subtitle && <p className="text-xs text-gray-500 mt-2">{subtitle}</p>}
-        </motion.div>
+        </div>
     )
 }

@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback, useMemo } from "react"
 import { supabase, SensorReading } from "@/lib/supabase";
 import { Download, Settings, Droplets, Thermometer, Sun, Clock, Activity } from 'lucide-react';
 import { format, subHours, subDays } from "date-fns";
-import { motion } from "framer-motion";
 import StartCard from "@/components/StartCard";
 import Loading from "@/components/Loading";
 import ChartCard from "@/components/ChartCard";
@@ -259,16 +258,12 @@ export default function Dashboard(){
   }
 
   return (
-    <div className="min-h-screen bg-linear-to-br from-slate-50 via-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-stone-50 text-stone-900">
       <div className="max-w-400 mx-auto p-4 sm:p-6 lg:p-8">
-        <motion.header
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-8"
-        >
+        <header className="mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-              <h1 className="text-4xl sm:text-5xl font-bold bg-linear-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              <h1 className="text-3xl sm:text-4xl font-bold text-green-800 mb-2 font-mono">
                 🌱 FloraSense
               </h1>
               <p className="text-gray-600 text-lg">
@@ -310,7 +305,7 @@ export default function Dashboard(){
               </button>
             </div>
           </div>
-        </motion.header>
+        </header>
 
         {latest &&(
           <>
@@ -603,17 +598,13 @@ export default function Dashboard(){
 
             <div className="space-y-4">
               {latest.moisture < 30 && (
-                <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="mt-8 bg-linear-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-6 rounded-r-xl shadow-lg"
-                >
+                <div className="mt-8 bg-linear-to-r from-orange-50 to-red-50 border-l-4 border-orange-500 p-6 rounded-r-xl shadow-lg">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-orange-100 rounded-full">
                       <Droplets className="text-orange-600" size={24}/>
                     </div>
                     <div>
-                      <h3 className="font-bold text-orange-900 text-lg mb-1">⚠️ Low Moisture Alert </h3>
+                      <h3 className="font-bold text-orange-900 text-lg mb-1">Low Moisture Alert </h3>
                       <p className="text-orange-800">
                         Your plant needs water! Current level:{" "}
                         <strong>{latest.moisture.toFixed(1)}%</strong>
@@ -623,21 +614,17 @@ export default function Dashboard(){
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {latest.light_lux < 100 && (
-                <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-linear-to-r from-gray-50 to-slate-50 border-l-4 border-gray-500 p-6 rounded-r-xl shadow-lg"
-                >
+                <div className="bg-linear-to-r from-gray-50 to-slate-50 border-l-4 border-gray-500 p-6 rounded-r-xl shadow-lg">
                   <div className="flex items-start gap-4">
                     <div className="p-3 bg-gray-100 rounded-full">
                       <Sun className="text-gray-600" size={24} />
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-900 text-lg mb-1">🌙 Low Light Alert</h3>
+                      <h3 className="font-bold text-gray-900 text-lg mb-1">Low Light Alert</h3>
                       <p className="text-gray-800">
                         Light level is low: <strong>{Math.round(latest.light_lux)} lx</strong>
                       </p>
@@ -646,7 +633,7 @@ export default function Dashboard(){
                       </p>
                     </div>
                   </div>
-                </motion.div>
+                </div>
               )}
 
               {!latest && !loading && (

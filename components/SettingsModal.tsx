@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion";
-import { Settings, X, Bell, Palette, Download, RefreshCw, AlertTriangle, Trash2 } from "lucide-react";
+import { Settings, X } from "lucide-react";
 
 interface SettingsModalProps {
     isOpen: boolean;
@@ -64,12 +64,9 @@ export default function SettingsModal({
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 z-50 flex items-center justify-center p-4"
                 >
-                    <motion.button
+                    <button
                     type="button"
                     aria-label="Close settings"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
                     onClick={onClose}
                     className="absolute inset-0 bg-white/10 backdrop-blur-md"
                     />
@@ -102,7 +99,6 @@ export default function SettingsModal({
                         <div className="p-6 space-y-6">
                             <section>
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <Bell size={20} className="text-indigo-600" />
                                     Alert Thresholds
                                 </h3>
 
@@ -190,7 +186,6 @@ export default function SettingsModal({
 
                             <div className="border-t border-gray-200 pt-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <Palette size={20} className="text-indigo-600" />
                                     Device Info
                                 </h3>
                                 
@@ -208,7 +203,6 @@ export default function SettingsModal({
 
                             <div className="border-t border-gray-200 pt-6">
                                 <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                                    <Download size={20} className="text-green-600" /> 
                                     Data Management 
                                 </h3>
 
@@ -217,7 +211,6 @@ export default function SettingsModal({
                                     onClick={onExportData}
                                     className="w-full px-4 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors flex items-center justify-center gap-2"
                                     >
-                                        <Download size={18} />
                                         Export All Data (CSV)
                                     </button>
 
@@ -246,7 +239,6 @@ export default function SettingsModal({
                                     }}
                                     className="w-full px-4 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors flex items-center justify-center gap-2"
                                     >
-                                        <RefreshCw size={18} />
                                         Backup Settings
                                     </button>
                                 </div>
@@ -254,7 +246,6 @@ export default function SettingsModal({
 
                             <div className="border-t border-gray-200 pt-6">
                                 <h3 className="text-lg font-semibold text-red-900 mb-4 flex items-center gap-2">
-                                    <AlertTriangle size={20} className="text-red-600" />
                                     Danger Zone
                                 </h3>
                                 {!showConfirm ? (
@@ -262,7 +253,6 @@ export default function SettingsModal({
                                         onClick={() => setShowConfirm(true)}
                                         className="w-full px-4 py-3 bg-red-50 text-red-700 border-2 border-red-200 rounded-lg font-medium hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
                                     >
-                                        <Trash2 size={18} />  
                                         Clear All History
                                     </button>
                                 ): (

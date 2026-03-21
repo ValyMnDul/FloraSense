@@ -13,7 +13,7 @@ export default function ChartCard({
         <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100"
+        className="bg-white rounded-none border-2 border-stone-200 p-5"
         >
             <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-indigo-100 rounded-lg text-indigo-600">
