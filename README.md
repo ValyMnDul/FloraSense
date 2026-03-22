@@ -4,8 +4,8 @@
 
 FloraSense is an end-to-end IoT solution designed to monitor environmental conditions for indoor plants in real-time. By integrating specialized hardware sensors with a **modern** web dashboard, the system provides actionable insights into soil moisture, ambient temperature, and light intensity to ensure optimal plant health.
 
-<video width="600" controls >
-  <source src="/assets/demo.mp4" type="video/mp4">
+<video controls>
+  <source src="./assets/demo.mp4" type="video/mp4">
 </video>
 
 ## The Problem
