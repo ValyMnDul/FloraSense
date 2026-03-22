@@ -8,6 +8,8 @@ FloraSense is an end-to-end IoT solution designed to monitor environmental condi
   <source src="./assets/demo.mp4" type="video/mp4">
 </video>
 
+[Demo](https://res.cloudinary.com/dy4ubx3ba/video/upload/v1774206777/demo_oc2wpi.mp4)
+
 ## The Problem
 
 Maintaining plants requires consistent monitoring of variables that are often invisible or easily overlooked. Common issues include:
