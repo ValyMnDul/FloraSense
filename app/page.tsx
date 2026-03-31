@@ -17,7 +17,7 @@ export default function Dashboard(){
   const [data, setData] = useState<SensorReading[]>([]);
   const [latest, setLatest] = useState<SensorReading | null> (null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [timeRange, setTimeRange] = useState<TimeRange>("7d");
+  const [timeRange, setTimeRange] = useState<TimeRange>("30d");
   const [showSettings, setShowSettings] = useState<boolean>(false);
 
   const [stats, setStats] = useState({
