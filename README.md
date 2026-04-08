@@ -8,12 +8,6 @@ FloraSense is an end-to-end IoT solution designed to monitor environmental condi
   <source src="./assets/demo.mp4" type="video/mp4">
 </video>
 
-### [Demo](https://res.cloudinary.com/dy4ubx3ba/video/upload/v1774206777/demo_oc2wpi.mp4)
-
-### [Sketch](sketch.cpp)
-
-### [Tinkercad](case.stl)
-
 ## The Problem
 
 Maintaining plants requires consistent monitoring of variables that are often invisible or easily overlooked. Common issues include:
@@ -45,12 +39,14 @@ The system utilizes the following hardware for data acquisition and local visual
 ## Design and Assembly
 
 The enclosure and layout were planned using **Tinkercad** to ensure a compact form factor that protects the electronics from soil humidity.
+### [Tinkercad](case.stl)
 
 ![tinkercad](./assets/tinkercad.png)
 
 ## Project Circuit
 
 Below is the complete wiring diagram for connecting the components to the ESP32 board.
+### [Sketch](sketch.cpp)
 
 | Component | Module Pin | ESP32 Pin |
 | :--- | :--- | :--- |
